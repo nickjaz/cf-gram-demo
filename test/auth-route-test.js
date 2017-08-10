@@ -3,8 +3,9 @@
 const expect = require('chai').expect;
 const request = require('superagent');
 const User = require('../model/user.js');
+const serverToggle = require('./lib/server-toggle.js');
 
-require('../server.js');
+const server = require('../server.js');
 
 const url = `http://localhost:${process.env.PORT}`;
 
@@ -15,6 +16,14 @@ const exampleUser = {
 };
 
 describe('Auth Routes', function() {
+  before(done => {
+    serverToggle.serverOn(server, done);
+  });
+
+  after(done => {
+    serverToggle.serverOff(server, done);
+  });
+
   describe('POST: /api/signup', function() {
     describe('with a valid body', function() {
       after( done => {

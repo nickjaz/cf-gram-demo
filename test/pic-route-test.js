@@ -2,13 +2,12 @@
 
 const expect = require('chai').expect;
 const request = require('superagent');
-// const debug = require('debug')('cfgram:pic-route-test');
 
 const Pic = require('../model/pic.js');
 const User = require('../model/user.js');
 const Gallery = require('../model/gallery.js');
-
-require('../server.js');
+const serverToggle = require('./lib/server-toggle.js');
+const server = require('../server.js');
 
 const url = `http://localhost:${process.env.PORT}`;
 
@@ -30,6 +29,14 @@ const examplePic = {
 };
 
 describe('Pic Routes', function() {
+  before(done => {
+    serverToggle.serverOn(server, done);
+  });
+
+  after(done => {
+    serverToggle.serverOff(server, done);
+  });
+
   afterEach(done => {
     Promise.all([
       Pic.remove({}),

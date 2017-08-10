@@ -26,6 +26,8 @@ app.use(galleryRouter);
 app.use(picRouter);
 app.use(errors);
 
-app.listen(PORT, () => {
+const server = module.exports = app.listen(PORT, () => {
   debug(`listening on: ${PORT}`);
 });
+
+server.isRunning = true;

@@ -3,10 +3,11 @@
 const expect = require('chai').expect;
 const request = require('superagent');
 const Promise = require('bluebird');
-// const mongoose = require('mongoose');
 
 const User = require('../model/user.js');
 const Gallery = require('../model/gallery.js');
+const serverToggle = require('./lib/server-toggle.js');
+const server = require('../server.js');
 
 const url = `http://localhost:${process.env.PORT}`;
 
@@ -22,6 +23,14 @@ const exampleGallery = {
 };
 
 describe('Gallery Routes', function() {
+  before(done => {
+    serverToggle.serverOn(server, done);
+  });
+
+  after(done => {
+    serverToggle.serverOff(server, done);
+  });
+
   afterEach(done => {
     Promise.all([
       User.remove({}),
