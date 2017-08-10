@@ -32,7 +32,7 @@ userSchema.methods.generatePasswordHash = function(password) {
 
 userSchema.methods.comparePasswordHash = function(password) {
   debug('comparePasswordHash');
-  
+
   return new Promise((resolve, reject) => {
     //(plain text password, hashed password, callback)
     bcrypt.compare(password, this.password, (err, valid) => {
@@ -48,7 +48,7 @@ userSchema.methods.generateFindHash = function() {
 
   return new Promise((resolve, reject) => {
     let tries = 0;
-
+    
     _generateFindHash.call(this);
 
     //generates a hexidecimal token
